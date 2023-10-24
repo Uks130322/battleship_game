@@ -1,7 +1,7 @@
 # battleship_game
 Play the Battleship with your computer!
-Add your ships: one three-decker ship, two two-decker ships and four one-decker ship.
 
+Add your ships: one three-decker ship, two two-decker ships and four one-decker ship.
 Enter the beginning and the end of the ship (or just the beginning for one-decker ship)
 in format 'A1A2' or something like that. The ships shouldn't touch each other.
 If you want to rebuild whole board, enter 'AGAIN'.
