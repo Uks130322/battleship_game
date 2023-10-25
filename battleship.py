@@ -24,19 +24,7 @@ RULES = ["Hello! It's the Battleship! Glad to see you!\n"
          "You can't fire in M. You can fire in contour but what for?"]
 
 
-class OutOfBoard(IndexError):
-    pass
-
-
-class FieldIsOccupied(Exception):
-    pass
-
-
-class IncorrectShip(Exception):
-    pass
-
-
-class OtherShipIsNear(Exception):
+class ActionWasNotDone(Exception):
     pass
 
 
@@ -44,19 +32,31 @@ class AllTheseShipsAreUsed(Exception):
     pass
 
 
-class ActionWasNotDone(Exception):
-    pass
-
-
-class YouHitTheTarget(ActionWasNotDone):
-    pass
-
-
 class AlreadyShot(Exception):
     pass
 
 
+class IncorrectShip(Exception):
+    pass
+
+
 class InputRecognitionError(ValueError):
+    pass
+
+
+class FieldIsOccupied(Exception):
+    pass
+
+
+class OtherShipIsNear(Exception):
+    pass
+
+
+class OutOfBoard(IndexError):
+    pass
+
+
+class YouHitTheTarget(ActionWasNotDone):
     pass
 
 
@@ -190,7 +190,7 @@ class Board:
                     raise OtherShipIsNear("Too close to other ship")
                 elif self.board_list[dot.x][dot.y].state == DotNames.empty:
                     self.board_list[dot.x][dot.y] = len(self.ship_list)
-        except (FieldIsOccupied, OtherShipIsNear, OutOfBoard, IncorrectShip, AllTheseShipsAreUsed) as error:
+        except (AllTheseShipsAreUsed, IncorrectShip, FieldIsOccupied, OtherShipIsNear, OutOfBoard) as error:
             print(error)
             raise ActionWasNotDone("Please try again")
         else:
@@ -366,7 +366,7 @@ class PlayerHuman(Player):
                 dot_1 = Dot(ord(coord[0]) - 65, int(coord[1]) - 1)  # because ord("A") is 65
                 dot_2 = Dot(ord(coord[2]) - 65, int(coord[3]) - 1)  # because ord("A") is 65
                 self.board.add_ship(Ship(dot_1, dot_2))
-            except (InputRecognitionError, IncorrectShip, ActionWasNotDone) as error:
+            except (ActionWasNotDone, InputRecognitionError, IncorrectShip) as error:
                 print(error)
                 continue
             else:
@@ -591,7 +591,7 @@ class Game:
                 computer.board.show_board()
                 computer.board.shoot(human.human_shoot())
                 break
-            except (YouHitTheTarget, ActionWasNotDone, AlreadyShot, OutOfBoard, InputRecognitionError) as error:
+            except (ActionWasNotDone, AlreadyShot, InputRecognitionError, OutOfBoard, YouHitTheTarget) as error:
                 if not Game.lives_amount(computer):
                     computer.board.show_board()
                     print("You win!")
