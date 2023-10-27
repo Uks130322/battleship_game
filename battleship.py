@@ -354,6 +354,7 @@ class PlayerHuman(Player):
             if coord == "AGAIN":
                 self.board = Board(hidden=False)
                 self.fill_board()
+                return
 
             try:
                 if len(coord) != 2 and len(coord) != 4:
